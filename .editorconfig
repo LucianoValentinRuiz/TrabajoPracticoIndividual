@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS5001: El programa no contiene ningún método 'Main' estático adecuado para un punto de entrada
+dotnet_diagnostic.CS5001.severity = error
