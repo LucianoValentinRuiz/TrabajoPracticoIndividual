@@ -1,11 +1,12 @@
 ﻿
 using Domain.Entities;
 using Aplication.Interface;
-
+using Aplication.DTO;
+using Aplication.Interface_Service;
 
 namespace Aplication.Service
 {
-    public class FuncionesService
+    public class FuncionesService : IFuncionesService
     {
         private readonly IFuncionesCommand _command;
         private readonly IFuncionesQuerys _query;
@@ -16,7 +17,7 @@ namespace Aplication.Service
             _query = query;
         }
 
-        public async Task CreateFuncion(Funciones fun_request) {
+        public async Task CreateFuncion(FuncionDTO fun_request) {
             Funciones funciones = new Funciones
             {
                 PeliculaId = fun_request.PeliculaId,
@@ -46,23 +47,11 @@ namespace Aplication.Service
             var funcion = _query.GetListFunciones();
             return funcion;       
          }
-        public Funciones GetById (int funId) {
-            var funcion =_query.GetFuncionById(funId);
+        public async Task <Funciones> GetById (int funId) {
+            var funcion =  _query.GetFuncionById(funId);
             return funcion;
         }
 
-        public void ImprimirFuncion(Funciones fun)
-        {
-            Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - -");
-            Console.WriteLine("Fecha: {0}",fun.Fecha.ToString("ddd,dd,MM"));
-            Console.WriteLine("Horario: {0}", fun.Horario);
-            Console.WriteLine("Sala - - -> ");
-            //new SalasService().ImprimirNombre(fun.SalaId);
-            Console.WriteLine("Pelicula - - ->");
-            //new PeliculasService().ImprimirTitulo(fun.PeliculaId);
-
-            Console.WriteLine();
-        }
         public void ImprimirFunciones_Peliculas(string titulo)
         {
             //PeliculasService peliserv = new PeliculasService();

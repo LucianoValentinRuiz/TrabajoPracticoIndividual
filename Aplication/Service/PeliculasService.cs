@@ -1,4 +1,5 @@
 ﻿using Aplication.Interface;
+using Aplication.Interface_Service;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Aplication.Service
 {
-    public class PeliculasService
+    public class PeliculasService : IPeliculasService
     {
         private readonly IPeliculasCommand _command;
         private readonly IPeliculasQuerys _query;
@@ -41,7 +42,7 @@ namespace Aplication.Service
             var pelicula = _query.GetListPeliculas();
             return pelicula;
         }
-        public Peliculas GetById(int pelId)
+        public async Task <Peliculas> GetById(int pelId)
         {
             var pelicula = _query.GetPeliculaById(pelId);
             return pelicula;
@@ -52,20 +53,5 @@ namespace Aplication.Service
             if (peliculas.Count == 0) { return false; }
             else { return true; }
         }
-        public void ImprimirPeliculas(int id)//imprime datos utiles para el usuario
-        {                                                       //sobre las peliculas
-            Peliculas pel = this.GetById(id);
-                Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - -");
-                Console.WriteLine("ID: {0}", pel.PeliculaId);   //imprimo el Id
-                Console.WriteLine("Titulo {0}",pel.Titulo);     //imprimo el titulo
-                //new GenerosService().ImprimirNombre(pel.Genero);//invoco GenerosService para imprimir el genero
-                Console.WriteLine("Sinopsis: {0} ",pel.Sinopsis);//imprimo la sinopsis
-                Console.WriteLine();
-        }
-        public void ImprimirTitulo(int id)   //imprime solo el titulo
-        {
-                Console.WriteLine("Titulo: {0}",this.GetById(id).Titulo);
-        }
-
     }
 }

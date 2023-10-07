@@ -13,6 +13,5 @@ namespace Aplication.Interface_Service
         public void DeleteGenero(int genId);
         public List<Generos> GetAll();
         public Task <Generos> GetById(int genId);
-        public void ImprimirNombre(int id);
     }
 }

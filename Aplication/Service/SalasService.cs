@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using Aplication.Interface_Service;
 
 namespace Aplication.Service
 {
-    public class SalasService
+    public class SalasService : ISalasService
     {
         private readonly ISalasCommand _command;
         private readonly ISalasQuerys _query;
@@ -39,14 +40,10 @@ namespace Aplication.Service
             var salas = _query.GetListSalas();
             return salas;
         }
-        public Salas GetById(int salId)
+        public async Task <Salas> GetById(int salId)
         {
             var salas = _query.GetSalasById(salId);
             return salas;
-        }
-        public void ImprimirNombre(int id)
-        {
-            Console.WriteLine("ID{0}     Nombre: {1}",(this.GetById(id)).SalaId, (this.GetById(id).Nombre));
         }
     }
 }

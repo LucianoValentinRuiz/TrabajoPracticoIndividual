@@ -14,7 +14,6 @@ namespace Aplication.Interface_Service
         void DeletePeliculas(int pelId);
         List<Peliculas> GetAll();
         Task <Peliculas> GetById(int pelId);
-        bool PeliculaExiste(int pelId, string titulo);
 
     }
 }

@@ -1,25 +1,45 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using Aplication.Command;
-using Aplication.Interface;
-using Aplication.Querys;
 using Aplication.Service;
+using Aplication.Interface;
+using Aplication.Interface_Service;
+using Infrastructure;
 using Infraestructure.Command;
-using TrabajoPractico;
+using Infrastructure.Querys;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using TrabajoPractico;
+using Aplication.Querys;
+using Aplication.Command;
+using Domain.Entities;
+using Presentation.Imprimir;
+using Aplication.DTO;
+using Aplication.Models;
 
-FuncionesService funcion_serv;
-PeliculasService pelicula_serv;
+IFuncionesService funcion_serv;
+IPeliculasService pelicula_serv;
+IGenerosService genero_serv;
+ISalasService sala_serv;
+IFIltrosService filtros_serv;
+
 using (var context = new CineDBContext())
 {
     IFuncionesCommand _funcommand = new FuncionesCommand(context);
     IFuncionesQuerys _funquerys = new FuncionesQuerys(context);
-     funcion_serv = new FuncionesService(_funcommand, _funquerys);
+    funcion_serv = new FuncionesService(_funcommand, _funquerys);
 
     IPeliculasCommand _pelcommand = new PeliculasCommand(context);
     IPeliculasQuerys _pelquerys = new PeliculasQuerys(context);
      pelicula_serv = new PeliculasService(_pelcommand, _pelquerys);
 
-    // Ahora puedes usar funcion_serv y pelicula_serv en tu proyecto actual.
+    IGenerosCommand _gencommand = new GenerosCommand(context);
+    IGenerosQuerys _genquerys = new GenerosQuerys(context);
+    genero_serv = new GenerosService(_gencommand, _genquerys);
+
+    ISalasCommand _salcommand = new SalasCommand(context);
+    ISalasQuerys _salquerys = new SalasQuerys(context);
+    sala_serv = new SalasService(_salcommand, _salquerys);
+
+    IFiltrosQuerys _filquerys = new FiltrosQuerys(context);
+    filtros_serv = new FiltrosService(_filquerys);
 }
 string opcion = "s";
 while (opcion == "s")
@@ -52,64 +72,34 @@ while (opcion == "s")
         case 1:
             Console.Clear();
             Console.WriteLine("¿Como deseas realizar el filtrado?");
-            Console.WriteLine("1.TITULO");
-            Console.WriteLine("2.HORARIO");
-            Console.Write("Opcion: ");
-            int filtrado = 0;
+            Console.Write("1.TITULO");
+            string titulo = Console.ReadLine();
+            Console.Write("2.HORARIO");
+            string dia = Console.ReadLine();
             try
             {
-                filtrado = int.Parse(Console.ReadLine());
+                List<Funciones> lista = await filtros_serv.ListaFunciones(titulo, dia);
+                if (lista != null)
+                {
+                    ImprimirFuncion Imprimir = new ImprimirFuncion();
+                    foreach (Funciones fun in lista)
+                    {
+                        Imprimir.Imprimir_Funcion(funcion_serv, fun.FuncionId, pelicula_serv, genero_serv, sala_serv);
+                    }
+                }
             }
             catch
             {
                 Console.WriteLine("Dato ingresado no valido");
             }
-            switch (filtrado)
-            {
-                case 1:
-                    foreach (var peli in pelicula_serv.GetAll())
-                    {
-                        pelicula_serv.ImprimirTitulo(peli.PeliculaId);
-                    }
-                    Console.Write("Ingresar titulo de pelicula: ");
-                    try
-                    {
-                        string titulo = Console.ReadLine();
-                        funcion_serv.ImprimirFunciones_Peliculas(titulo);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("Error al ingresar el titulo.");
-                    }
-                    break;
-                case 2:
-                    Console.Write("Ingresar horario:");
-                    DateTime actual = DateTime.Today;
-                    DateTime fecha;
-                    Console.WriteLine("Ingresar la fecha con el siguiente formato:");
-                    try
-                    {
-                        Console.WriteLine("Ingresar dia (dd):");
-                        int dia = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Ingresar mes (MM):");
-                        int mes = int.Parse(Console.ReadLine());
-                        fecha = new DateTime(actual.Year, mes, dia);
-                        funcion_serv.ImprimirFunciones_Horarios(fecha);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error al ingresar datos de la fecha, valores ingresados no validos.");
-                    }
-                    break;
-                default:
-                    break;
-            }
+
             Console.ReadKey();
             Console.Clear();
             break;
         case 2:
             Console.Clear();
-            //funcion_serv.CreateFuncion(new FuncionesRequest());
+            FuncionesRequest funcionRquest = new FuncionesRequest(pelicula_serv,sala_serv,genero_serv);
+            funcion_serv.CreateFuncion(funcionRquest.CreateFuncionRequest());
             Console.ReadKey();
             Console.Clear();
             break;

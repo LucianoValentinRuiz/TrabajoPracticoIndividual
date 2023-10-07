@@ -1,4 +1,5 @@
 ﻿using Aplication.Interface;
+using Aplication.Interface_Service;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Aplication.Service
 {
-    public class GenerosService
+    public class GenerosService : IGenerosService
     {
         private readonly IGenerosCommand _command;
         private readonly IGenerosQuerys _query;
@@ -38,15 +39,10 @@ namespace Aplication.Service
             var genero = _query.GetListGeneros();
             return genero;
         }
-        public Generos GetById(int genId)
+        public async Task <Generos> GetById(int genId)
         {
             var genero = _query.GetGenerosById(genId);
             return genero;
-        }
-
-        public void ImprimirNombre(int id)
-        {
-            Console.WriteLine("Generos: {0}",(this.GetById(id)).Nombre );
         }
     }
 }
