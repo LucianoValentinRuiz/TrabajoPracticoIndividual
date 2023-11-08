@@ -20,29 +20,13 @@ namespace Infrastructure.Querys
         public async Task <IQueryable<Funciones>> GetFunciones()
         {
             IQueryable<Funciones> query = _context.Funciones;
-            List<Funciones> funciones = await query.ToListAsync();
-
-            if (funciones.Count == 0)
-            {
-                throw new InvalidOperationException("No se encontraron Funciones Existentes");
-            }
-
-            // Devuelve la lista de datos en lugar de la consulta IQueryable.
-            return funciones.AsQueryable();
+            return query;
         }
 
         public async Task <IQueryable<Peliculas>> GetPeliculas()
         {
             IQueryable<Peliculas> query =  _context.Peliculas;
-            List<Peliculas> peliculas = await query.ToListAsync();
-
-            if (peliculas.Count == 0)
-            {
-                throw new InvalidOperationException("No se encontraron Peliculas Existentes");
-            }
-
-            // Devuelve la lista de datos en lugar de la consulta IQueryable.
-            return peliculas.AsQueryable();
+            return query;
         }
 
     }

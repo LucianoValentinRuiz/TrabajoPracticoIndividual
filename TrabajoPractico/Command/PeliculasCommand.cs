@@ -1,13 +1,9 @@
-﻿using Aplication.Interface;
+﻿using Aplication.DTO;
+using Aplication.Interface;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TrabajoPractico;
 
-namespace Aplication.Command
+namespace Infraestructure.Command
 {
     public class PeliculasCommand : IPeliculasCommand
     {
@@ -21,7 +17,6 @@ namespace Aplication.Command
         {
             _context.Add(pel);
             await _context.SaveChangesAsync();
-            Console.WriteLine("Pelicula insertada correctamente");
         }
 
         public async Task RemovePeliculas(int pelId)
@@ -31,9 +26,26 @@ namespace Aplication.Command
             {
                 _context.Peliculas.Remove(peli);
                 _context.SaveChanges();
-                Console.WriteLine("Pelicula eliminada correctamente");
             }
-            else { Console.WriteLine("No se encontro ninguna Pelicula con el Id especificado para eliminar"); }
+        }
+        public async Task<Peliculas> UpdatePeliculas(int pelID, PeliculaDTO pel)
+        {
+            var pelicula = await _context.Peliculas.FindAsync(pelID);
+            if (pelicula != null)
+            {
+                pelicula.Titulo = pel.Titulo;
+                pelicula.Poster = pel.Poster;
+                pelicula.Trailer = pel.Trailer;
+                pelicula.Sinopsis = pel.Sinopsis;
+                pelicula.Genero = pel.Genero;
+                _context.Peliculas.Update(pelicula);
+                await _context.SaveChangesAsync();
+                return pelicula;
+            }
+            else 
+            { 
+                return null; 
+            }
         }
     }
 }

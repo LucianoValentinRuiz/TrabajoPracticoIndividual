@@ -10,8 +10,8 @@ namespace Aplication.Interface_Service
 {
     public interface IFuncionesService
     {
-        Task CreateFuncion(FuncionDTO fun_request);
-        public void DeleteFuncion(int funId);
+        Task<Funciones> CreateFuncion(FuncionDTO fun_request);
+        public Task<Funciones> DeleteFuncion(int funId);
         public List<Funciones> GetAll();
         public Task <Funciones> GetById(int funId);
 

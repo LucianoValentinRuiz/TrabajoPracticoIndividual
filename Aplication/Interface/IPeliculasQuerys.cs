@@ -11,6 +11,5 @@ namespace Aplication.Interface
     {
         public List<Peliculas> GetListPeliculas();
         public Peliculas GetPeliculaById(int id);
-        public List<Peliculas> GetPeliculasByIdAndTitulo(int pelId, string titulo);
     }
 }

@@ -4,6 +4,7 @@ using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,27 +19,29 @@ namespace Aplication.Service
             _query = query;
         }
 
-        public async Task<List<Funciones>> ListaFunciones(string? dia, string? titulo)
+        public async Task<List<Funciones>> FuncionesFiltro(DateTime? dia, string? titulo, Int32? genero)
         {
-            int IdPelicula = -1;
-            List<Funciones> funciones = null;
-
-            if (titulo != null) 
+            List<int>ListaIdPeliculas = new List<int>();
+            if (titulo == null)
+                titulo = "";
+            if (genero == null)
+                genero = 0;
+            if (titulo != "" || genero != 0)
             {
                 var pelis = await _query.GetPeliculas();
-                IdPelicula = pelis
-                             .Where(p => p.Titulo.ToLower() == titulo.ToLower())
+                List<int> ListaPeliculas = pelis
+                             .Where(p => (titulo != "" || p.Titulo.ToLower() == titulo.ToLower()))
+                             .Where(p => (genero != 0 || p.Genero == genero))
                              .Select(p => p.PeliculaId)
-                             .FirstOrDefault();
-                //IdPeliculas = idsDePeliculas;
+                             .ToList();
+                ListaIdPeliculas = ListaIdPeliculas;
             }
             var fun = await _query.GetFunciones();
-            funciones =  fun
-                        .Where(p =>(IdPelicula != -1 && p.PeliculaId == IdPelicula))
-                        .Where(p => (dia != null && p.Horario.ToString("MM-dd") == dia))
-                        .ToList();
-            //funciones = ListaFunciones;
+            List<Funciones> funciones = fun
+                        .Where(f =>(ListaIdPeliculas.Count == 0 || ListaIdPeliculas.Contains(f.PeliculaId)) 
+                        &&(dia == DateTime.MinValue || f.Fecha == dia)).ToList();
             return funciones;
         }
+
     }
 }

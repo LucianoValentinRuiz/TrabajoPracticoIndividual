@@ -1,13 +1,8 @@
 ﻿using Aplication.Interface;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TrabajoPractico;
 
-namespace Aplication.Command
+namespace Infraestructure.Command
 {
     public class SalasCommand : ISalasCommand
     {
@@ -22,7 +17,6 @@ namespace Aplication.Command
         {
             _context.Add(sal);
             await _context.SaveChangesAsync();
-            Console.WriteLine("Sala insertada correctamente");
         }
 
         public async Task RemoveSalas(int salId)
@@ -32,9 +26,7 @@ namespace Aplication.Command
             {
                 _context.Salas.Remove(sala);
                 _context.SaveChanges();
-                Console.WriteLine("Sala eliminada correctamente");
             }
-            else { Console.WriteLine("No se encontro ninguna Sala con el Id especificado para eliminar"); }
         }
     }
 }

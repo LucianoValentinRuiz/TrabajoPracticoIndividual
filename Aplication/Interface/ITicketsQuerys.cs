@@ -9,7 +9,7 @@ namespace Aplication.Interface
 {
     public interface ITicketsQuerys
     {
-        public List<Tickets> GetListTickets();
+        public List<Tickets> GetListTickets(int id);
         public Tickets GetTicketsById(Guid id);
     }
 }

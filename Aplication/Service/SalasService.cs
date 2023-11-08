@@ -1,12 +1,7 @@
 ﻿using Aplication.Interface;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
 using Aplication.Interface_Service;
+using Aplication.DTO;
 
 namespace Aplication.Service
 {
@@ -21,7 +16,7 @@ namespace Aplication.Service
             _query = query;
         }
 
-        public async Task<Salas> CreateSalas(Salas sal)
+        public async Task<Salas> CreateSalas(SalaDTO sal)
         {
             var salas = new Salas
             {

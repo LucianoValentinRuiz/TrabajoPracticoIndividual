@@ -1,4 +1,6 @@
-﻿using Aplication.Interface_Service;
+﻿using Aplication.Interface_Imprimir;
+using Aplication.Interface_Service;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,22 +9,34 @@ using System.Threading.Tasks;
 
 namespace Presentation.Imprimir
 {
-    public class ImprimirFuncion
+    public class ImprimirFuncion : IimprimirFuncion
     {
-        public async Task Imprimir_Funcion(IFuncionesService fun_serv,int id,IPeliculasService pel_serv,
-                                     IGenerosService gen_serv,ISalasService sal_serv)
-        {
-            var fun = await fun_serv.GetById(id);
-
-            ImprimirPelicula impr_pel = new ImprimirPelicula();
-            ImprimirSala impr_sal = new ImprimirSala();
-
-            Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - -");
-            Console.WriteLine("Fecha: {0}", fun.Fecha.ToString("ddd,dd,MM"));
-            Console.WriteLine("Horario: {0}", fun.Horario);
-            Console.WriteLine("Sala: {0}",impr_sal.Imprimir_Sala(sal_serv,fun.SalaId));
-            Console.WriteLine("Pelicula: {0}",impr_pel.Imprimir_Peliculas(pel_serv,fun.PeliculaId,gen_serv));
-            Console.WriteLine();
-        }
+        //public async Task<CreateFuncionResponse> createResponse(Funciones funcion, Peliculas pelicula, Salas sala, Generos genero)
+        //{
+        //    var result = new CreateFuncionResponse
+        //    {
+        //        FuncionID = funcion.FuncionesID,
+        //        Pelicula = new CreatePeliculaResponse
+        //        {
+        //            PeliculaId = pelicula.PeliculaID,
+        //            Titulo = pelicula.Titulo,
+        //            Poster = pelicula.Poster,
+        //            Generos = new CreateGeneroResponse
+        //            {
+        //                GenerosId = genero.GenerosID,
+        //                Nombre = genero.Nombre,
+        //            }
+        //        },
+        //        Sala = new CreateSalasResponse
+        //        {
+        //            SalaId = sala.SalasId,
+        //            Nombre = sala.Nombre,
+        //            Capacidad = sala.Capacidad
+        //        },
+        //        Fecha = funcion.Fecha,
+        //        Horario = funcion.Horario
+        //    };
+        //    return result;
+        //}
     }
 }

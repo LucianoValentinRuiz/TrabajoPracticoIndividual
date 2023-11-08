@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrabajoPractico;
 
-namespace Aplication.Querys
+namespace Infraestructure.Querys
 {
     public class PeliculasQuerys : IPeliculasQuerys
     {
@@ -29,13 +29,6 @@ namespace Aplication.Querys
             IQueryable<Peliculas> query = _context.Peliculas;
             var pel = (Peliculas)query.FirstOrDefault(x => x.PeliculaId == id);
             return pel;
-        }
-        public List<Peliculas> GetPeliculasByIdAndTitulo(int pelId, string titulo)
-        {
-            var pelis = _context.Peliculas
-                        .Where(p => p.PeliculaId == pelId && p.Titulo.ToUpper() == titulo.ToUpper())
-                        .ToList();
-            return pelis;
         }
     }
 }

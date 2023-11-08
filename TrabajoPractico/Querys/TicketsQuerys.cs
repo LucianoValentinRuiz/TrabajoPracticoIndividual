@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrabajoPractico;
 
-namespace Aplication.Querys
+namespace Infraestructure.Querys
 {
     public class TicketsQuerys : ITicketsQuerys
     {
@@ -17,10 +17,10 @@ namespace Aplication.Querys
             _context = context;
         }
 
-        public List<Tickets> GetListTickets()
+        public List<Tickets> GetListTickets(int id)
         {
             IQueryable<Tickets> query = _context.Tickets;
-            var tic = query.ToList();
+            var tic = query.Where(t => t.FuncionId==id).ToList();
             return tic;
         }
 

@@ -1,4 +1,5 @@
-﻿using Aplication.Interface;
+﻿using Aplication.DTO;
+using Aplication.Interface;
 using Aplication.Interface_Service;
 using Domain.Entities;
 using System;
@@ -21,7 +22,7 @@ namespace Aplication.Service
             _query = query;
         }
 
-        public async Task<Generos> CreateGenero(Generos gen)
+        public async Task<Generos> CreateGenero(GeneroDTO gen)
         {
             var genero = new Generos
             {

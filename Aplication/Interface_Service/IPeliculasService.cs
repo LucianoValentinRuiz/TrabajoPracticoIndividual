@@ -1,19 +1,15 @@
 ﻿
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Aplication.DTO;
 
 namespace Aplication.Interface_Service
 {
     public interface IPeliculasService
     {
-        Task<Peliculas> CreatePeliculas(Peliculas pel_DTO);
+        Task<Peliculas> CreatePeliculas(PeliculaDTO pel_DTO);
         void DeletePeliculas(int pelId);
         List<Peliculas> GetAll();
         Task <Peliculas> GetById(int pelId);
-
+        public Task<Peliculas> ModificarPelicula(int id, PeliculaDTO pelDTO);
     }
 }

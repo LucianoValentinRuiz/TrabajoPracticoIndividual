@@ -1,13 +1,8 @@
 ﻿using Aplication.Interface;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TrabajoPractico;
 
-namespace Aplication.Command
+namespace Infraestructure.Command
 {
     public class TicketsCommand : ITicketsCommand
     {
@@ -22,7 +17,6 @@ namespace Aplication.Command
         {
             _context.Add(tic);
             await _context.SaveChangesAsync();
-            Console.WriteLine("Ticket insertado correctamente");
         }
 
         public async Task RemoveTickets(Guid ticId)
@@ -32,9 +26,7 @@ namespace Aplication.Command
             {
                 _context.Tickets.Remove(ticket);
                 _context.SaveChanges();
-                Console.WriteLine("Ticket eliminado correctamente");
             }
-            else { Console.WriteLine("No se encontro ningun Ticket con el Id especificado para eliminar"); }
         }
     }
 }

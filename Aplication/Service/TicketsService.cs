@@ -1,15 +1,12 @@
 ﻿
+using Aplication.DTO;
 using Aplication.Interface;
+using Aplication.Interface_Service;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Aplication.Service
 {
-    public class TicketsService
+    public class TicketsService : ITicketsService
     {
         private readonly ITicketsCommand _command;
         private readonly ITicketsQuerys _query;
@@ -20,11 +17,12 @@ namespace Aplication.Service
             _query = query;
         }
 
-        public async Task<Tickets> CreatTickets(Tickets tic)
+        public async Task<Tickets> CreatTickets(TicketDTO tic)
         {
             var tickets = new Tickets
             {
-                Usuario = tic.Usuario,
+                FuncionId = tic.funcionId,
+                Usuario = tic.usuario,
             };
             await _command.InsertTickets(tickets);
             return tickets;
@@ -33,9 +31,9 @@ namespace Aplication.Service
         {
             _command.RemoveTickets(ticId);
         }
-        public List<Tickets> GetAll()
+        public async Task <List<Tickets>> GetAll(int id)
         {
-            var tickets = _query.GetListTickets();
+            var tickets = _query.GetListTickets(id);
             return tickets;
         }
         public Tickets GetById(Guid ticId)

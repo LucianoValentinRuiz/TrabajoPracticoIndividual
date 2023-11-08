@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrabajoPractico;
 
-namespace Aplication.Querys
+namespace Infraestructure.Querys
 {
     public class FuncionesQuerys : IFuncionesQuerys
     {

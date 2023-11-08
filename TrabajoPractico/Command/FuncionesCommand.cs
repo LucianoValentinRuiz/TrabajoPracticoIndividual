@@ -17,21 +17,22 @@ namespace Infraestructure.Command
         {
             _context = context;
         }
-        public async Task InsertFuncion(Funciones fun)
+        public async Task<Funciones> InsertFuncion(Funciones fun)
         {
             _context.Add(fun);
             _context.SaveChanges();
+            return fun;
         }
-        public async Task RemoveFuncion(int funId)
+        public async Task<Funciones> RemoveFuncion(int funId)
         {
             var funcion = await _context.Funciones.FindAsync(funId);
             if (funcion != null)
             {
                 _context.Funciones.Remove(funcion);
                 _context.SaveChanges();
-                Console.WriteLine("Funcion eliminada correctamente");
+                return funcion;
             }
-            else { Console.WriteLine("No se encontro ninguna Funcion con el Id especificado para eliminar"); }
+            else return null;
         }
     }
 }

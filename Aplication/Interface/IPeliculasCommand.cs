@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Aplication.DTO;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Aplication.Interface
     {
         public Task InsertPeliculas(Peliculas pel);
         public Task RemovePeliculas(int pelId);
+        public Task<Peliculas> UpdatePeliculas(int pelID, PeliculaDTO pel);
     }
 }

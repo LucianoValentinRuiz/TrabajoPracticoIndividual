@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Presentation.Models
+namespace Aplication.DTO
 {
-    public class PeliculasRequest
+    public class PeliculaDTO
     {
-        public int PeliculaId { get; set; }
         public string Titulo { get; set; }
         public string Sinopsis { get; set; }
+        public string Poster { get; set; }
+        public string Trailer { get; set; }
+        public int Genero { get; set; }
     }
 }

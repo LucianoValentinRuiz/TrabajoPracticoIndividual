@@ -195,7 +195,7 @@ namespace Infrastructure.Migrations
             //INSERTAR PELICULAS
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "Metegol",
                     "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/b1ceaa10955803.560ee6ac8af18.jpg",
@@ -204,7 +204,7 @@ namespace Infrastructure.Migrations
                     4});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "La monja",
                     "https://tinyurl.com/5e8zjh32",
@@ -213,7 +213,7 @@ namespace Infrastructure.Migrations
                     10});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "Rescatando al soldado Ryan",
                     "https://www.themoviedb.org/t/p/w220_and_h330_face/yfExW9uPK4idbUDjRGBlXLbMxRR.jpg",
@@ -222,7 +222,7 @@ namespace Infrastructure.Migrations
                     6});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "Transformers",
                     "https://pics.filmaffinity.com/Transformers-365863398-large.jpg",
@@ -231,7 +231,7 @@ namespace Infrastructure.Migrations
                     1});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "Tron: El legado",
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHWxkkJ4TlNCqB5tUKuCCUIxjPSphZ0j_GL-RrcnWP&s",
@@ -240,7 +240,7 @@ namespace Infrastructure.Migrations
                     3});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "Son como niños",
                     "https://tinyurl.com/23s4dveh",
@@ -249,7 +249,7 @@ namespace Infrastructure.Migrations
                     4});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "Elvis",
                     "https://pics.filmaffinity.com/Elvis-647942773-large.jpg",
@@ -258,7 +258,7 @@ namespace Infrastructure.Migrations
                     8});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "Diego Maradona",
                     "https://es.web.img2.acsta.net/pictures/19/06/19/17/05/3852697.jpg",
@@ -267,7 +267,7 @@ namespace Infrastructure.Migrations
                     5});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "El telefono negro",
                     "https://m.cinesargentinos.com.ar/poster/8768-el-telefono-negro.jpg?1654073429",
@@ -276,7 +276,7 @@ namespace Infrastructure.Migrations
                     9 });
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "Viaje al centro de la Tierra",
                     "https://es.web.img3.acsta.net/medias/nmedia/18/66/88/98/20250073.jpg",
@@ -285,7 +285,7 @@ namespace Infrastructure.Migrations
                     2});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "Warcraft: el primer encuentro de dos mundos",
                     "https://tinyurl.com/3hh3xr2a",
@@ -294,7 +294,7 @@ namespace Infrastructure.Migrations
                     7});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "La guerra de los mundos",
                     "https://tinyurl.com/4k7c3uur",
@@ -303,7 +303,7 @@ namespace Infrastructure.Migrations
                     3 });
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[] {
                     "Harry Potter 20 Aniversario: Regreso a Hogwarts",
                     "https://tinyurl.com/42zyd7cf",
@@ -312,7 +312,7 @@ namespace Infrastructure.Migrations
                     5});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "Jhon Wick Otro dia para matar",
                     "https://tinyurl.com/2p9d6e75",
@@ -321,7 +321,7 @@ namespace Infrastructure.Migrations
                     1});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "The Thing",
                     "https://tinyurl.com/2rf7279x",
@@ -330,7 +330,7 @@ namespace Infrastructure.Migrations
                     10});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "Rocketman",
                     "https://tinyurl.com/ym8fkaz4",
@@ -339,7 +339,7 @@ namespace Infrastructure.Migrations
                     8});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "Corazon de Leon",
                     "https://tinyurl.com/k75uvt2h",
@@ -348,16 +348,16 @@ namespace Infrastructure.Migrations
                     6});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "El aprendiz de brujo",
                     "https://tinyurl.com/5kp64wb4",
-                    "Frodo Bolsón es un hobbit al que su tío Bilbo hace portador del poderoso Anillo Único, capaz de otorgar un poder ilimitado al que la posea, con la finalidad de destruirlo. Sin embargo, fuerzas malignas muy poderosas quieren arrebatárselo.",
+                    "Dave se convierte en el protegido renuente de Balthazar y recibe un curso intenso en el arte de la magia; pero mientras él se prepara para ayudar a su maestro a defender Manhattan de un poderoso adversario,.",
                     "https://www.youtube.com/watch?v=NqhPSLt8lJE",
                     7});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[]{
                     "El gran pez",
                     "https://tinyurl.com/ytzt6nfv",
@@ -366,7 +366,7 @@ namespace Infrastructure.Migrations
                     2});
             migrationBuilder.InsertData(
                 table: "Peliculas",
-                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "GenerosID" },
+                columns: new[] { "Titulo", "Poster", "Sinopsis", "Trailer", "Genero" },
                 values: new object[] {
                     "Hasta el Limite",
                     "https://tinyurl.com/mr2kxndh",

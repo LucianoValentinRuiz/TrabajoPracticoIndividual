@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Aplication.Interface_Imprimir;
 
 namespace Presentation.Imprimir
 {
-    public class ImprimirSala
+    public class ImprimirSala : IimprimirSala
     {
         public async Task Imprimir_Sala(ISalasService sal_serv,int id)
         {

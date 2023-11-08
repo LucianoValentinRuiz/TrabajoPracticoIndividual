@@ -9,7 +9,7 @@ namespace Aplication.Interface
 {
     public interface IFuncionesCommand
     {
-        public Task InsertFuncion(Funciones fun);
-        public Task RemoveFuncion(int funId);
+        public Task<Funciones> InsertFuncion(Funciones fun);
+        public Task<Funciones> RemoveFuncion(int funId);
     }
 }

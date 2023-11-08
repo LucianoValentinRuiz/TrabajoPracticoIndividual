@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
+using Aplication.Interface_Imprimir;
 
 namespace Presentation.Imprimir
 {
-    public class ImprimirGenero
+    public class ImprimirGenero : IimprimirGenero
     {
         public async Task Imprimir_Genero(IGenerosService gen_serv,int id)
         {

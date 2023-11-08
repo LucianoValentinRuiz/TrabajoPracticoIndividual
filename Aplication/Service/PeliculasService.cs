@@ -1,11 +1,7 @@
 ﻿using Aplication.Interface;
 using Aplication.Interface_Service;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Aplication.DTO;
 
 namespace Aplication.Service
 {
@@ -20,15 +16,15 @@ namespace Aplication.Service
             _query = query;
         }
 
-        public async Task<Peliculas> CreatePeliculas(Peliculas fun_request)
+        public async Task<Peliculas> CreatePeliculas(PeliculaDTO fun)
         {
             var pelicula = new Peliculas
             {
-                //Titulo = fun_request.Titulo,
-                //Sinopsis = fun_request.Sinopsis,
-                //Poster = fun_request.Poster,
-                //Trailer = fun_request.Trailer,
-                //GenerosID = fun_request.GenerosID,
+                Titulo = fun.Titulo,
+                Sinopsis = fun.Sinopsis,
+                Poster = fun.Poster,
+                Trailer = fun.Trailer,
+                Genero = fun.Genero,
             };
             await _command.InsertPeliculas(pelicula);
             return pelicula;
@@ -47,11 +43,10 @@ namespace Aplication.Service
             var pelicula = _query.GetPeliculaById(pelId);
             return pelicula;
         }
-        public bool PeliculaExiste(int pelId, string titulo)//retorna una lista de peliculas
-        {                                                              //con el mismo id y string ingresados
-            var peliculas = _query.GetPeliculasByIdAndTitulo(pelId, titulo);
-            if (peliculas.Count == 0) { return false; }
-            else { return true; }
+        public async Task<Peliculas> ModificarPelicula(int id, PeliculaDTO pelDTO)
+        {
+            Peliculas pelicula = await _command.UpdatePeliculas(id, pelDTO);
+            return pelicula;
         }
     }
 }

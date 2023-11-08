@@ -1,13 +1,8 @@
-﻿using System;
-using Aplication.Interface;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Aplication.Interface;
 using Domain.Entities;
 using TrabajoPractico;
 
-namespace Aplication.Command
+namespace Infraestructure.Command
 {
     public class GenerosCommand : IGenerosCommand
     {
@@ -21,7 +16,6 @@ namespace Aplication.Command
         {
             _context.Add(gen);
             await _context.SaveChangesAsync();
-            Console.WriteLine("Genero insertado correctamente");
         }
 
         public async Task RemoveGeneros(int genId)
@@ -31,10 +25,7 @@ namespace Aplication.Command
             {
                 _context.Generos.Remove(gen);
                 _context.SaveChanges();
-                Console.WriteLine("Genero eliminado correctamente");
             }
-            else { Console.WriteLine("No se encontro ningun Genero con el Id especificado para eliminar"); }
-
         }
     }
 }

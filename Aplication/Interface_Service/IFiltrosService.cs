@@ -9,6 +9,6 @@ namespace Aplication.Interface_Service
 {
     public interface IFIltrosService
     {
-        public Task<List<Funciones>> ListaFunciones(string? dia, string? titulo);
+        public Task<List<Funciones>> FuncionesFiltro(DateTime? dia, string? titulo, Int32? genero);
     }
 }
