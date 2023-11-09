@@ -30,9 +30,10 @@ namespace Infraestructure.Command
         }
         public async Task<Peliculas> UpdatePeliculas(int pelID, PeliculaDTO pel)
         {
-            var pelicula = await _context.Peliculas.FindAsync(pelID);
-            if (pelicula != null)
+            var peli = _context.Peliculas.Where(x => x.Titulo == pel.Titulo).FirstOrDefault();
+            if (peli != null)
             {
+                var pelicula = await _context.Peliculas.FindAsync(pelID);
                 pelicula.Titulo = pel.Titulo;
                 pelicula.Poster = pel.Poster;
                 pelicula.Trailer = pel.Trailer;
@@ -42,10 +43,8 @@ namespace Infraestructure.Command
                 await _context.SaveChangesAsync();
                 return pelicula;
             }
-            else 
-            { 
-                return null; 
-            }
+            else
+                return null;
         }
     }
 }

@@ -8,7 +8,6 @@ namespace Aplication.DTO
 {
     public class TicketDTO
     {
-        public int funcionId { get; set; }
         public int cantidad { get; set; }
         public string usuario { get; set; }
     }

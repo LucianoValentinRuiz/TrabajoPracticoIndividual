@@ -17,11 +17,11 @@ namespace Aplication.Service
             _query = query;
         }
 
-        public async Task<Tickets> CreatTickets(TicketDTO tic)
+        public async Task<Tickets> CreatTickets(int id,TicketDTO tic)
         {
             var tickets = new Tickets
             {
-                FuncionId = tic.funcionId,
+                FuncionId = id,
                 Usuario = tic.usuario,
             };
             await _command.InsertTickets(tickets);

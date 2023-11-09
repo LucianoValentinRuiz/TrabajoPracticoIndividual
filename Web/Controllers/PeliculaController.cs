@@ -59,17 +59,21 @@ namespace Web.Controllers
             {
                 return BadRequest("ID de película no válido");
             }
-            var pel = await _peliculasService.ModificarPelicula(id, peliDTO);
-            var gen = await _generosService.GetById(pel.Genero);
-            if (pel != null)
+            if (_peliculasService.GetById(id) != null)
             {
-                var result = _peliculaMapper.createResponse(pel, gen,_filtrosService);
-                return new JsonResult(result);
+                var pel = await _peliculasService.ModificarPelicula(id, peliDTO);
+                var gen = await _generosService.GetById(pel.Genero);
+                if (pel != null)
+                {
+                    var result = _peliculaMapper.createResponse(pel, gen, _filtrosService);
+                    return Ok (new JsonResult(result));
+                }
+                else
+                {
+                    return Conflict();
+                }
             }
-            else
-            {
-                return NotFound("No se encontro ninguna pelicula con la ID ingresada");
-            }
+            else return NotFound();
         }
     }
 }

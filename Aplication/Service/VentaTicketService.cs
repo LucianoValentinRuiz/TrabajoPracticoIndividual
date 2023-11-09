@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Aplication.Service
 {
-    public class VentaTicket : IVentaTicket
+    public class VentaTicketService : IVentaTicketService
     {
         private readonly ITicketsService _services;
         private readonly IFuncionesService _funcionesService;
         private readonly ISalasService _salasService;
 
-        public VentaTicket(ITicketsService services, IFuncionesService funcionesService, ISalasService salasService)
+        public VentaTicketService(ITicketsService services, IFuncionesService funcionesService, ISalasService salasService)
         {
             _services = services;
             _funcionesService = funcionesService;
@@ -26,13 +26,13 @@ namespace Aplication.Service
         {
             int cantidadDisponible = await this.TicketDisponibles(id);
             Tickets result;
-            if ( cantidadDisponible < tic.cantidad || _funcionesService.GetById(tic.funcionId) == null)
+            if ( cantidadDisponible < tic.cantidad )
             {
                 return result = null;
             }
             else
             {
-                result = await _services.CreatTickets(tic);
+                result = await _services.CreatTickets(id,tic);
                 return result;
             }
         }

@@ -47,6 +47,8 @@ builder.Services.AddTransient<ITicketsCommand, TicketsCommand>();
 builder.Services.AddTransient<IFIltrosService, FiltrosService>();
 builder.Services.AddTransient<IFiltrosQuerys, FiltrosQuerys>();
 
+builder.Services.AddTransient<IVentaTicketService,VentaTicketService>();
+
 builder.Services.AddTransient<IValidationDatetime, ValidationDatetime>();
 
 builder.Services.AddTransient<IFuncionMapper, FuncionMapper>();

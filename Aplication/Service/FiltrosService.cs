@@ -30,7 +30,7 @@ namespace Aplication.Service
             {
                 var pelis = await _query.GetPeliculas();
                 List<int> ListaPeliculas = pelis
-                             .Where(p => (titulo != "" || p.Titulo.ToLower() == titulo.ToLower()))
+                             .Where(p => (titulo != "" || p.Titulo.ToLower().Contains(titulo.ToLower())))
                              .Where(p => (genero != 0 || p.Genero == genero))
                              .Select(p => p.PeliculaId)
                              .ToList();
