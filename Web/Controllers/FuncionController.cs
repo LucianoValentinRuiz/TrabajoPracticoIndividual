@@ -10,10 +10,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Aplication.Validation;
 
 namespace Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class FuncionController : ControllerBase
     {
@@ -41,48 +42,67 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(string? dia, string? titulo, int? genero)
+        public async Task<IActionResult> GetAll(string? fecha, string? titulo, int? genero)
         {
-            try
+            List<Funciones> funciones = new List<Funciones>();
+            funciones = await _filtrosService.FuncionesFiltro(_validation.IngresarFecha(fecha), titulo, genero);
+            if (funciones.Count != 0)
             {
-                List<Funciones> funciones = new List<Funciones>();
-                funciones = await _filtrosService.FuncionesFiltro(_validation.IngresarFecha(dia), titulo, genero);
-                if (funciones.Count != 0)
+                var resultados = new List<CreateFuncionCompletaRequest>();
+                foreach (Funciones fun in funciones)
                 {
-                    var resultados = new List<CreateFuncionCompletaRequest>();
-                    foreach (Funciones fun in funciones)
-                    {
-                        var pelicula = await _peliculasService.GetById(fun.PeliculaId);
-                        var sala = await _salasService.GetById(fun.SalaId);
-                        var gen = await _generosService.GetById(pelicula.Genero);
-                        var result = await _funcionMapper.createResponse(fun, pelicula, sala, gen);
-                        resultados.Add(result);
-                    }
-                    return Ok(new JsonResult(resultados));
+                    var pelicula = await _peliculasService.GetById(fun.PeliculaId);
+                    var sala = await _salasService.GetById(fun.SalaId);
+                    var gen = await _generosService.GetById(pelicula.Genero);
+                    var result = await _funcionMapper.createResponse(fun, pelicula, sala, gen);
+                    resultados.Add(result);
                 }
-                else
-                    return NotFound();
+                return Ok(resultados);
             }
-            catch { return BadRequest(); }
+            else
+            {
+                var result = new
+                {
+                    message = "No se encontraron funciones que cumplan con los datos ingresados."
+                };
+                return BadRequest(result);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateFuncion(FuncionDTO funDTO)
         {
-            var pelicula = await _peliculasService.GetById(funDTO.PeliculaId);
-            var sala = await _salasService.GetById(funDTO.SalaId);
+            var pelicula = await _peliculasService.GetById(funDTO.pelicula);
+            var sala = await _salasService.GetById(funDTO.sala);
             var genero = await _generosService.GetById(pelicula.Genero);
-            if(pelicula == null && sala == null && genero == null)
-                return NotFound();
-            else 
+            ValidationTimeSpan validador = new ValidationTimeSpan();
+            TimeSpan horario = validador.validarHorario(funDTO.horario);
+            if (pelicula == null || sala == null || genero == null || horario == TimeSpan.Zero)
             {
-                if(false)
-                    return BadRequest();
-                else
+                var result = new
+                {
+                    message = "Los datos ingresados no son validos"
+                };
+                return BadRequest(result);
+            }
+            else
+            {
+                Funciones funComparar = await _filtrosService.FuncionesFiltroUltimaSala(funDTO.sala);
+                var horaDiferencia = funComparar.Horario - horario;
+                var horaReglamentaria = TimeSpan.FromHours(2) + TimeSpan.FromMinutes(30);
+                if ( funComparar == null || (funComparar.Fecha.Date == funDTO.fecha.Date && horaReglamentaria >= horaDiferencia) )
                 {
                     var funcion = await _funcionesService.CreateFuncion(funDTO);
                     var resultado = await _funcionMapper.createResponse(funcion, pelicula, sala, genero);
                     return new JsonResult(resultado) { StatusCode = 201 };
+                }
+                else
+                {
+                    var result = new
+                    {
+                        message = "El horario y sala seleccionada causan conflictos en el sistema."
+                    };
+                    return Conflict(result);
                 }
             }
         }
@@ -98,58 +118,83 @@ namespace Web.Controllers
                 var genero = await _generosService.GetById(pelicula.Genero);
 
                 var result = await _funcionMapper.createResponse(funcion, pelicula, sala, genero);
-                return Ok(new JsonResult(result));
+                return Ok(result);
             }
-            return NotFound("No se encontraron funciones con los filtros especificados");
+            return NotFound("No se encontraron funciones el id especificado");
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFuncion(int id)
         {
             Funciones fun = await _funcionesService.GetById(id);
             if (fun == null)
-                return NotFound();
+            {
+                var result = new
+                {
+                    message = "Funcion Ingresada no encontrada."
+                };
+                return NotFound(result);
+            }
+            var sala = await _salasService.GetById(fun.SalaId);
+            if (await _ventaTicketService.TicketDisponibles(id) == sala.Capacidad)
+            {
+                var funcion = await _funcionesService.DeleteFuncion(id);
+                var result = new
+                {
+                    funcionId = funcion.FuncionId,
+                    fecha = funcion.Fecha,
+                    horario = funcion.Horario
+                };
+                return Ok(result);
+            }
             else
             {
-                var sala = await _salasService.GetById(fun.SalaId);
-                if ( await _ventaTicketService.TicketDisponibles(id) == sala.Capacidad)
+                var result = new
                 {
-                    var funcion = await _funcionesService.DeleteFuncion(id);
-                    var result = new
-                    {
-                        funcionId = funcion.FuncionId,
-                        fecha = funcion.Fecha,
-                        horario = funcion.Horario
-                    };
-                    return Ok( new JsonResult(result));
-                }
-                else return Conflict();
+                    message = "No se puede eliminar Funciones con Tickets vendidos."
+                };
+                return BadRequest(result);
             }
         }
         [HttpGet("{id}/tickets")]
         public async Task<IActionResult>VerTickets(int id)
         {
-            if (_funcionesService.GetById(id) == null)
-                return NotFound();
-            else
+            if (await _funcionesService.GetById(id) == null)
             {
-                int ticketsDisponibles = await _ventaTicketService.TicketDisponibles(id);
-                var result = new
+                var mensaje = new
                 {
-                    cantidad = ticketsDisponibles
+                    message = "Funcion Ingresada no encontrada."
                 };
-                return Ok(new JsonResult(result));
+                return NotFound(mensaje);
             }
+            int ticketsDisponibles = await _ventaTicketService.TicketDisponibles(id);
+            var result = new
+            {
+                cantidad = ticketsDisponibles
+            };
+            return Ok(result);
         }
         [HttpPost("{id}/tickets")]
         public async Task<IActionResult>VenderTickets(int id, TicketDTO ticket)
         {
-            if (_funcionesService.GetById(id) == null)
-                return NotFound();
+            if ( await _funcionesService.GetById(id) == null)
+            {
+                var result = new
+                {
+                    message = "Funcion Ingresada no encontrada."
+                };
+                return NotFound(result);
+            }
             else
             {
                 Tickets tic = await _ventaTicketService.Vender(id, ticket);
                 if (tic == null)
-                    return Conflict();
+                {
+                    var result = new
+                    {
+                        message = "La cantidad de Tickets solicitados no esta permitida"
+                    };
+                    return Conflict(result);
+                }
                 else
                 {
                     Funciones funcion = await _funcionesService.GetById(id);
@@ -157,7 +202,7 @@ namespace Web.Controllers
                     var sala = await _salasService.GetById(funcion.SalaId);
                     var genero = await _generosService.GetById(pelicula.Genero);
                     var result = await _ticketMapper.createResponse(tic, funcion, pelicula, sala, genero);
-                    return Ok(new JsonResult(result));
+                    return Ok(result);
                 }
             }
         }

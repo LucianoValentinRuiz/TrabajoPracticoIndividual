@@ -25,14 +25,18 @@ namespace Aplication.Service
         public async Task<Tickets> Vender(int id,TicketDTO tic)
         {
             int cantidadDisponible = await this.TicketDisponibles(id);
-            Tickets result;
-            if ( cantidadDisponible < tic.cantidad )
+            Tickets result= null;
+            if ( cantidadDisponible < tic.cantidad || tic.cantidad == 0)
             {
-                return result = null;
+                return result ;
             }
             else
             {
-                result = await _services.CreatTickets(id,tic);
+                for (int i = 0; i < tic.cantidad; i++)
+                {
+                    Tickets ticketNuevo = await _services.CreatTickets(id, tic);
+                    result = ticketNuevo;
+                }
                 return result;
             }
         }

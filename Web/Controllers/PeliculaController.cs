@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class PeliculaController : ControllerBase
     {
@@ -26,54 +26,53 @@ namespace Web.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPeliculaById(int id)
         {
-            if (id < 0)
-            {
-                return BadRequest("ID de película no válido");
-            }
 
             var pel = await _peliculasService.GetById(id);
             if (pel != null)
             {
                 var gen = await _generosService.GetById(pel.Genero);
-                var result = _peliculaMapper.createResponse(pel, gen,_filtrosService);
-                return new JsonResult(result);
+                var objeto = await _peliculaMapper.createResponse(pel, gen,_filtrosService);
+                return Ok (objeto);
             }
             else
             {
-                return NotFound("No se encontro ninguna pelicula con la ID ingresada");
+                var result = new
+                {
+                    message = "La pelicula seleccionada no se encontro."
+                };
+                return NotFound(result);
             }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePelicula(int id, PeliculaDTO peliDTO)
         {
-            var Pelicula_edit = new PeliculaDTO
+            if (await _peliculasService.GetById(id) != null)
             {
-                Titulo = peliDTO.Titulo,
-                Poster = peliDTO.Poster,
-                Trailer = peliDTO.Trailer,
-                Sinopsis = peliDTO.Sinopsis,
-                Genero = peliDTO.Genero
-            };
-            if (id < 0 || id.GetType() != typeof(int))
-            {
-                return BadRequest("ID de película no válido");
-            }
-            if (_peliculasService.GetById(id) != null)
-            {
-                var pel = await _peliculasService.ModificarPelicula(id, peliDTO);
-                var gen = await _generosService.GetById(pel.Genero);
+                var pel = await _peliculasService.ModificarPelicula(id, peliDTO, _generosService);
                 if (pel != null)
                 {
-                    var result = _peliculaMapper.createResponse(pel, gen, _filtrosService);
-                    return Ok (new JsonResult(result));
+                    var gen = await _generosService.GetById(pel.Genero);
+                    var result = await _peliculaMapper.createResponse(pel, gen, _filtrosService);
+                    return Ok(result);
                 }
                 else
                 {
-                    return Conflict();
+                    var result = new
+                    {
+                        message = "Los datos ingresados no son validos."
+                    };
+                    return BadRequest(result);
                 }
             }
-            else return NotFound();
+            else
+            {
+                var result = new
+                {
+                    message = "La pelicula seleccionada no se encontro."
+                };
+                return NotFound(result); 
+            }
         }
     }
 }

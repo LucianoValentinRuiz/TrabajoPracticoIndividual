@@ -31,14 +31,19 @@ namespace Infraestructure.Command
         public async Task<Peliculas> UpdatePeliculas(int pelID, PeliculaDTO pel)
         {
             var peli = _context.Peliculas.Where(x => x.Titulo == pel.Titulo).FirstOrDefault();
-            if (peli != null)
+            if (peli == null)
             {
                 var pelicula = await _context.Peliculas.FindAsync(pelID);
-                pelicula.Titulo = pel.Titulo;
-                pelicula.Poster = pel.Poster;
-                pelicula.Trailer = pel.Trailer;
-                pelicula.Sinopsis = pel.Sinopsis;
-                pelicula.Genero = pel.Genero;
+                if (pel.Titulo != null || pel.Titulo != "string")
+                    pelicula.Titulo = pel.Titulo;
+                if ( pel.Poster != "string")
+                    pelicula.Poster = pel.Poster;
+                if ( pel.Trailer != "string")
+                    pelicula.Trailer = pel.Trailer;
+                if ( pel.Sinopsis != "string")
+                    pelicula.Sinopsis = pel.Sinopsis;
+                if ( pel.Genero != 0)
+                    pelicula.Genero = pel.Genero;
                 _context.Peliculas.Update(pelicula);
                 await _context.SaveChangesAsync();
                 return pelicula;

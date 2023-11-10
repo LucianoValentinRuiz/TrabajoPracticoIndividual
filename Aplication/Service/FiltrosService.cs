@@ -19,27 +19,35 @@ namespace Aplication.Service
             _query = query;
         }
 
-        public async Task<List<Funciones>> FuncionesFiltro(DateTime? dia, string? titulo, Int32? genero)
+        public async Task<List<Funciones>> FuncionesFiltro(DateTime dia, string? titulo, Int32? genero)
         {
-            List<int>ListaIdPeliculas = new List<int>();
             if (titulo == null)
                 titulo = "";
             if (genero == null)
                 genero = 0;
-            if (titulo != "" || genero != 0)
-            {
+            if (dia == null)
+                dia = DateTime.MinValue;
+
                 var pelis = await _query.GetPeliculas();
-                List<int> ListaPeliculas = pelis
-                             .Where(p => (titulo != "" || p.Titulo.ToLower().Contains(titulo.ToLower())))
-                             .Where(p => (genero != 0 || p.Genero == genero))
+                List<int> ListaIdPeliculas = pelis
+                             .Where(p => (titulo == "" || p.Titulo.ToLower().StartsWith(titulo.ToLower())))
+                             .Where(p => (genero == 0 || p.Genero == genero))
                              .Select(p => p.PeliculaId)
                              .ToList();
-                ListaIdPeliculas = ListaIdPeliculas;
-            }
+
             var fun = await _query.GetFunciones();
             List<Funciones> funciones = fun
                         .Where(f =>(ListaIdPeliculas.Count == 0 || ListaIdPeliculas.Contains(f.PeliculaId)) 
-                        &&(dia == DateTime.MinValue || f.Fecha == dia)).ToList();
+                        &&(dia == DateTime.MinValue || (f.Fecha.Year == dia.Year && f.Fecha.Month == dia.Month && f.Fecha.Day == dia.Day))).ToList();
+            return funciones;
+        }
+        public async Task<Funciones> FuncionesFiltroUltimaSala(int idSala)
+        {
+            var fun = await _query.GetFunciones();
+            Funciones funciones = fun
+                        .Where(f => f.SalaId == idSala)
+                        .OrderByDescending(f => f.FuncionId)
+                        .FirstOrDefault();
             return funciones;
         }
 

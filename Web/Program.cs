@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using TrabajoPractico;
 using Infrastructure.Querys;
 using Aplication.Interface_Validation;
-using Presentation.Validation;
 using Aplication.Interface_Mappers;
 using Aplication.Mappers;
+using Aplication.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,11 +49,11 @@ builder.Services.AddTransient<IFiltrosQuerys, FiltrosQuerys>();
 
 builder.Services.AddTransient<IVentaTicketService,VentaTicketService>();
 
-builder.Services.AddTransient<IValidationDatetime, ValidationDatetime>();
-
 builder.Services.AddTransient<IFuncionMapper, FuncionMapper>();
 builder.Services.AddTransient<IPeliculaMapper, PeliculaMapper>();
 builder.Services.AddTransient<ITicketMapper,TicketMapper>();
+
+builder.Services.AddTransient<IValidationDatetime, ValidationDateTime>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

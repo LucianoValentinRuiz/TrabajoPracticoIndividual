@@ -29,10 +29,6 @@ namespace Infraestructure.Querys
         public Funciones GetFuncionById(int id) {
             IQueryable<Funciones>query = _context.Funciones;
             var fun = (Funciones)query.FirstOrDefault(x => x.FuncionId == id);
-            if (fun == null)
-            {
-                throw new InvalidOperationException("No se encontro una Funcion con el Id especificado");
-            }
             return fun;
         }
     }

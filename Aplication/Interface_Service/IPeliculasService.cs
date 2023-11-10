@@ -1,6 +1,7 @@
 ﻿
 using Domain.Entities;
 using Aplication.DTO;
+using Aplication.Service;
 
 namespace Aplication.Interface_Service
 {
@@ -10,6 +11,6 @@ namespace Aplication.Interface_Service
         void DeletePeliculas(int pelId);
         List<Peliculas> GetAll();
         Task <Peliculas> GetById(int pelId);
-        public Task<Peliculas> ModificarPelicula(int id, PeliculaDTO pelDTO);
+        public Task<Peliculas> ModificarPelicula(int id, PeliculaDTO pelDTO, IGenerosService genServ);
     }
 }

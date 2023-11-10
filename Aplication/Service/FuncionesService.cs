@@ -2,6 +2,8 @@
 using Aplication.Interface;
 using Aplication.DTO;
 using Aplication.Interface_Service;
+using Aplication.Validation;
+using Aplication.Interface_Validation;
 
 namespace Aplication.Service
 {
@@ -17,15 +19,22 @@ namespace Aplication.Service
         }
 
         public async Task<Funciones> CreateFuncion(FuncionDTO fun_dto) {
-            var funciones = new Funciones
+            ValidationTimeSpan validador = new ValidationTimeSpan();
+            TimeSpan horario = validador.validarHorario(fun_dto.horario);
+            if (horario == TimeSpan.Zero)
+                return null;
+            else
             {
-                PeliculaId = fun_dto.PeliculaId,
-                SalaId = fun_dto.SalaId,
-                Fecha = fun_dto.Fecha,
-                Horario =fun_dto.Horario,
-            };
+                var funciones = new Funciones
+                {
+                    PeliculaId = fun_dto.pelicula,
+                    SalaId = fun_dto.sala,
+                    Fecha = fun_dto.fecha,
+                    Horario = horario,
+                };
 
-            return await _command.InsertFuncion(funciones);
+                return await _command.InsertFuncion(funciones);
+            }
 
         }
         public async Task<Funciones> DeleteFuncion(int funId) {

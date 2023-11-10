@@ -43,10 +43,14 @@ namespace Aplication.Service
             var pelicula = _query.GetPeliculaById(pelId);
             return pelicula;
         }
-        public async Task<Peliculas> ModificarPelicula(int id, PeliculaDTO pelDTO)
+        public async Task<Peliculas> ModificarPelicula(int id, PeliculaDTO pelDTO,IGenerosService genServ)
         {
-            Peliculas pelicula = await _command.UpdatePeliculas(id, pelDTO);
-            return pelicula;
+            if (pelDTO.Genero == 0 || await genServ.GetById(pelDTO.Genero) != null)
+            {
+                Peliculas pelicula = await _command.UpdatePeliculas(id, pelDTO);
+                return pelicula;
+            }
+            return null;
         }
     }
 }

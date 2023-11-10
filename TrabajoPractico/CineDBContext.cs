@@ -6,9 +6,9 @@ namespace TrabajoPractico
 {
     public class CineDBContext : DbContext
     {
-        //public CineDBContext(): base()
-        //{
-        //}
+        public CineDBContext(DbContextOptions<CineDBContext> options) : base(options)
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
             optionBuilder.UseSqlServer("Server=localhost;Database=CineDB;Trusted_Connection=True;TrustServerCertificate=True");

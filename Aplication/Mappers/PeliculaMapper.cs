@@ -1,6 +1,7 @@
 ﻿using Aplication.Interface_Mappers;
 using Aplication.Interface_Service;
 using Aplication.Models;
+using Aplication.Service;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,18 +15,19 @@ namespace Aplication.Mappers
     {
         public async Task<CreatePeliculaCompletaRequest> createResponse(Peliculas pelicula, Generos genero, IFIltrosService fIltrosService)
         {
-            var lista = await fIltrosService.FuncionesFiltro(null, pelicula.Titulo, pelicula.Genero);
-            List<CreateFuncionRequest> funcionesLista = new List<CreateFuncionRequest>();
-            foreach (var funcion in lista)
+            var lista = await fIltrosService.FuncionesFiltro(DateTime.MinValue, pelicula.Titulo,null);
+            var funcionLista = new List<CreateFuncionRequest>();
+            foreach (Funciones fun in lista)
             {
-                var createFuncion = new CreateFuncionRequest
+                var nuevaFuncion = new CreateFuncionRequest
                 {
-                    funcionId = funcion.FuncionId,
-                    fecha = funcion.Fecha,
-                    horario = funcion.Horario,
+                    funcionId = fun.FuncionId,
+                    fecha = fun.Fecha,
+                    horario = fun.Horario,
                 };
-                funcionesLista.Add(createFuncion);
+                funcionLista.Add(nuevaFuncion);
             }
+
             var result = new CreatePeliculaCompletaRequest
             {
                 peliculaId = pelicula.PeliculaId,
@@ -38,7 +40,7 @@ namespace Aplication.Mappers
                     id = genero.GeneroId,
                     nombre = genero.Nombre,
                 },
-                funciones = funcionesLista,
+                funciones = funcionLista,
             };
             return result;
         }
